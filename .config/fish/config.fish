@@ -6,7 +6,11 @@ starship init fish | source
 zoxide init fish | source
 
 export PATH="$PATH:~/.config/emacs/bin"
-export FZF_DEFAULT_OPTS="--height 55% --padding 5 --margin 5 --layout reverse --info right"
+export FZF_DIRS="Documents Projects .config"
+export FZF_DEFAULT_OPTS="--height 100% --margin 35%,30%
+                         --info right --preview-window=up,hidden,20% 
+                         --bind 'ctrl-p:toggle-preview' 
+                         --walker-root=$FZF_DIRS"
 set fish_greeting ''
 
 # File system
@@ -98,9 +102,11 @@ alias new="ls -lt modified --color=always | head -15"
 
 alias :q='exit'
 
+alias config='/usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME'
+# .dotfiles bare git repository
+
 function fe
     fzf -m --preview='bat -p --color=always {}' --bind 'enter:become(nvim {+})'
 end
 
-# .dotfiles bare git repository
-alias config='/usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME'
+bind ctrl-f fe

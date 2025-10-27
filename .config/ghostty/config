@@ -5,7 +5,7 @@ command = /usr/bin/fish
 # Font
 font-family = "SF Mono"
 font-style = Regular
-font-size = 10
+font-size = 11
 
 # Window
 window-theme = ghostty
@@ -16,15 +16,16 @@ resize-overlay = never
 gtk-toolbar-style = flat
 
 # Cursor styling
-cursor-style = "block"
-cursor-style-blink = true
+cursor-style = "underline"
+cursor-style-blink = false
 shell-integration-features = no-cursor
 
 # Keyboard bindings
 keybind = shift+insert=paste_from_clipboard
 keybind = control+insert=copy_to_clipboard
 keybind = control+k=scroll_page_up
-keybind = control+j=scroll_page_down
+keybind = control+up=scroll_page_up
+keybind = control+down=scroll_page_down
 
 # SSH session terminfo
 shell-integration-features = ssh-env
