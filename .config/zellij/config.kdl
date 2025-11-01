@@ -1,4 +1,31 @@
 keybinds clear-defaults=true {
+    session {
+        bind "w" { // "normal" session manager
+            LaunchOrFocusPlugin "zj-smart-sessions" {
+                floating true
+            };
+            SwitchToMode "Normal"
+        }
+    }
+    normal {
+        bind "Ctrl j" { PageScrollDown; }
+        bind "Ctrl k" { PageScrollUp; }
+        bind "Ctrl h" { // "normal" session manager
+            LaunchOrFocusPlugin "zj-smart-sessions" {
+                floating true
+            };
+            SwitchToMode "Normal"
+        }
+        bind "Ctrl H" { // sessionizer
+            LaunchOrFocusPlugin "zj-smart-sessions" {
+                floating true
+                find_command "/home/dnbias/.local/bin/find_dirs"
+                base_path "/home/dnbias/Projects" // path prefix required for relative paths from
+                                                  // the script output
+            };
+            SwitchToMode "Normal"
+        }
+    }
     locked {
         bind "Ctrl g" { SwitchToMode "normal"; }
     }
@@ -134,18 +161,18 @@ keybinds clear-defaults=true {
         }
     }
     shared_except "locked" {
-        bind "Ctrl 1" { GoToTab 1; SwitchToMode "normal"; }
-        bind "Ctrl 2" { GoToTab 2; SwitchToMode "normal"; }
-        bind "Ctrl 3" { GoToTab 3; SwitchToMode "normal"; }
-        bind "Ctrl 4" { GoToTab 4; SwitchToMode "normal"; }
-        bind "Ctrl 5" { GoToTab 5; SwitchToMode "normal"; }
-        bind "Ctrl 6" { GoToTab 6; SwitchToMode "normal"; }
         bind "Alt left" { MoveFocusOrTab "left"; }
         bind "Alt down" { MoveFocus "down"; }
         bind "Alt up" { MoveFocus "up"; }
         bind "Alt right" { MoveFocusOrTab "right"; }
         bind "Alt +" { Resize "Increase"; }
         bind "Alt -" { Resize "Decrease"; }
+        bind "Ctrl 1" { GoToTab 1; SwitchToMode "normal"; }
+        bind "Ctrl 2" { GoToTab 2; SwitchToMode "normal"; }
+        bind "Ctrl 3" { GoToTab 3; SwitchToMode "normal"; }
+        bind "Ctrl 4" { GoToTab 4; SwitchToMode "normal"; }
+        bind "Ctrl 5" { GoToTab 5; SwitchToMode "normal"; }
+        bind "Ctrl 6" { GoToTab 6; SwitchToMode "normal"; }
         bind "Alt =" { Resize "Increase"; }
         bind "Alt [" { PreviousSwapLayout; }
         bind "Alt ]" { NextSwapLayout; }
@@ -162,9 +189,6 @@ keybinds clear-defaults=true {
         bind "Alt Shift p" { ToggleGroupMarking; }
         bind "Ctrl q" { Quit; }
     }
-    // shared_except "locked" "move" {
-    //     bind "Ctrl h" { SwitchToMode "move"; }
-    // }
     shared_except "locked" "session" {
         bind "Ctrl o" { SwitchToMode "session"; }
     }
@@ -177,12 +201,9 @@ keybinds clear-defaults=true {
     shared_except "locked" "tab" {
         bind "Ctrl t" { SwitchToMode "tab"; }
     }
-    // shared_except "locked" "pane" {
-    //     bind "Ctrl p" { SwitchToMode "pane"; }
-    // }
-    // shared_except "locked" "resize" {
-    //     bind "Ctrl n" { SwitchToMode "resize"; }
-    // }
+    shared_except "locked" "tab" {
+        bind "Ctrl p" { SwitchToMode "pane"; }
+    }
     shared_except "normal" "locked" "entersearch" {
         bind "enter" { SwitchToMode "normal"; }
     }
@@ -191,10 +212,6 @@ keybinds clear-defaults=true {
     }
     shared_among "pane" "tmux" {
         bind "x" { CloseFocus; SwitchToMode "normal"; }
-    }
-    shared_among "normal" {
-        bind "Ctrl j" { ScrollDown; }
-        bind "Ctrl k" { ScrollUp; }
     }
     shared_among "scroll" "search" {
         bind "PageDown" { PageScrollDown; }
@@ -271,12 +288,27 @@ plugins {
     welcome-screen location="zellij:session-manager" {
         welcome_screen true
     }
+    zjstatus location="https://github.com/b0o/zjstatus/releases/latest/download/zjstatus.wasm"
+    zjstatus-hints location="https://github.com/b0o/zjstatus-hints/releases/latest/download/zjstatus-hints.wasm" {
+        hide_in_base_mode true
+        max_length "0"
+        overflow_str "..."
+        pipe_name "zjstatus_hints"
+    }
+    sessionizer location="file:~/.config/zellij/plugins/zellij-sessionizer.wasm" {
+    //  zellij pipe -p sessionizer -n sessionizer-new
+        cwd "~/"
+        // default_dirs "Projects"
+        // default_layout "default"
+    }
+    zj-smart-sessions location="file:~/.config/zellij/plugins/zj-smart-sessions.wasm"
 }
 
 // Plugins to load in the background when a new session starts
 // eg. "file:/path/to/my-plugin.wasm"
 // eg. "https://example.com/my-plugin.wasm"
 load_plugins {
+    zjstatus-hints
 }
 web_client {
     font "monospace"
@@ -311,7 +343,7 @@ default_shell "fish"
 // The name of the default layout to load on startup
 // Default: "default"
 // 
-default_layout "custom-compact"
+// default_layout "zjstatus"
  
 // The folder in which Zellij will look for layouts
 // (Requires restart)
@@ -400,13 +432,13 @@ layout_dir "/home/dnbias/.config/zellij/layouts"
 // otherwise this will error if such a session exists.
 // Default: <RANDOM>
 // 
-// session_name "My singleton session"
+session_name "omarchy"
  
 // When `session_name` is provided, attaches to that session
 // if it is already running or creates it otherwise.
 // Default: false
 // 
-// attach_to_session true
+attach_to_session true
  
 // Toggle between having Zellij lay out panes according to a predefined set of layouts whenever possible
 // Options:
@@ -513,7 +545,7 @@ layout_dir "/home/dnbias/.config/zellij/layouts"
 // Whether to show tips on startup
 // Default: true
 // 
-// show_startup_tips false
+show_startup_tips false
  
 // Whether to show release notes on first version run
 // Default: true
