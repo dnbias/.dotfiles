@@ -4,13 +4,15 @@ end
 
 starship init fish | source
 zoxide init fish | source
+mise activate fish | source
 
 export PATH="$PATH:~/.config/emacs/bin"
-export FZF_DIRS="Documents Projects .config"
+export PATH="$PATH:~/.local/bin"
+export SSH_AUTH_SOCK="$XDG_RUNTIME_DIR/ssh-agent.socket"
+export FZF_DIRS="Documents,Projects,.config"
 export FZF_DEFAULT_OPTS="--height 100% --margin 35%,30%
                          --info right --preview-window=up,hidden,20% 
-                         --bind 'ctrl-p:toggle-preview' 
-                         --walker-root=$FZF_DIRS"
+                         --bind 'ctrl-p:toggle-preview'"
 set fish_greeting ''
 
 # File system
